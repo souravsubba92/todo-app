@@ -18,7 +18,22 @@ const addTaskToList = () => {
     createTaskItem(taskValue);
 
     input.value = "";
+
+    //saving the task in the Local storage
+
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.push(taskValue);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 };
 
+//update the task from local storage
+
+const initializeTaskList = () => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach((task) => createTaskItem(task));
+};
+
 addTask.addEventListener("click", addTaskToList);
+
+initializeTaskList();
