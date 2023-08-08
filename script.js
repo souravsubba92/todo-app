@@ -6,6 +6,14 @@ const taskList = document.querySelector("#taskList");
 const createTaskItem = (taskValue) => {
   const taskItem = document.createElement("li");
   taskItem.innerText = taskValue;
+
+  //creating delete button and adding it with task
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-button");
+  deleteButton.innerText = "delete";
+
+  deleteButton.addEventListener("click", () => deleteTask(taskValue));
+  taskItem.appendChild(deleteButton);
   taskList.appendChild(taskItem);
 };
 
@@ -25,6 +33,14 @@ const addTaskToList = () => {
     tasks.push(taskValue);
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
+};
+
+const deleteTask = (taskValue) => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const updatedTask = tasks.filter((task) => task !== taskValue);
+  localStorage.setItem("tasks", JSON.stringify(updatedTask));
+  taskList.innerHTML = "";
+  initializeTaskList();
 };
 
 //update the task from local storage
